@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../app.css';
+	import '../app.scss';
 	import { Color, ColorInput } from 'color-picker-svelte';
 	import Gorro from '$lib/Gorro.svelte';
 	import Footer from '$lib/Footer.svelte';
@@ -17,17 +17,15 @@
 <Header />
 
 <main>
-	<div class="what">
-		<div class="inputs">
-			<div class="colors">
-				<ColorInput bind:color={gorroColor} title="Gorro" />
-				<ColorInput bind:color={letrasColor} title="Letras" />
-				<ColorInput bind:color={logoColor} title="Logo" />
-			</div>
-			<button>Comparte la cosa 🚀</button>
+	<div class="inputs">
+		<div class="colors">
+			<ColorInput bind:color={gorroColor} title="Gorro" />
+			<ColorInput bind:color={letrasColor} title="Letras" />
+			<ColorInput bind:color={logoColor} title="Logo" />
 		</div>
-		<Gorro {gorro} {letras} {logo} />
+		<button>Comparte la cosa 🚀</button>
 	</div>
+	<Gorro {gorro} {letras} {logo} />
 </main>
 
 <p class="mas-info">
@@ -38,17 +36,18 @@
 
 <Footer />
 
-<style>
+<style lang="scss">
 	main {
 		width: 100%;
 		max-width: var(--maxWidth);
 		margin: 0 auto;
-		/* background-color: mediumpurple; */
-	}
-	.what {
 		display: grid;
 		grid-template-columns: 1fr 1fr;
 		gap: 30px;
+		@media only screen and (max-width: 512px) {
+			grid-template-columns: 1fr;
+			gap: 12px;
+		}
 	}
 	.inputs {
 		display: flex;
@@ -56,6 +55,13 @@
 		justify-content: space-between;
 		gap: 24px;
 		padding: 24px 0;
+		@media only screen and (max-width: 512px) {
+			/* padding: 0; */
+			gap: 12px;
+			button {
+				display: none;
+			}
+		}
 	}
 	.colors {
 		display: flex;

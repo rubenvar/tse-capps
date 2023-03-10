@@ -2,16 +2,24 @@
 	<h1>Elige el gorro de la<br />VI Travesía Santa Engracia!</h1>
 </header>
 
-<style>
+<style lang="scss">
 	header {
 		margin-top: 40px;
 		width: 100%;
 		max-width: var(--maxWidth);
+		@media only screen and (max-width: 512px) {
+			margin-top: 12px;
+		}
 	}
 	h1 {
+		font-family: 'McLaren', system-ui, -apple-system, Oxygen, Ubuntu, 'Open Sans', sans-serif;
 		font-size: 46px;
-		font-family: 'McLaren', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-			Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 		color: #28235c;
+		@media only screen and (max-width: 768px) {
+			font-size: 32px;
+		}
+		@media only screen and (max-width: 512px) {
+			font-size: 22px;
+		}
 	}
 </style>
