@@ -1,5 +1,8 @@
 <script lang="ts">
 	import '../app.scss';
+	import '@fontsource/mclaren';
+	import '@fontsource/oxygen';
+
 	import { Color, ColorInput } from 'color-picker-svelte';
 	import Gorro from '$lib/Gorro.svelte';
 	import Footer from '$lib/Footer.svelte';
