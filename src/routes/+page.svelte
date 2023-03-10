@@ -14,7 +14,7 @@
 	$: logo = logoColor.toHexString();
 </script>
 
-<Header />
+<Header titleColor={letras} />
 
 <main>
 	<div class="inputs">
@@ -28,7 +28,7 @@
 	<Gorro {gorro} {letras} {logo} />
 </main>
 
-<p class="mas-info">
+<p class="mas-info" style="--link:{gorro};">
 	<a href="https://travesiasantaengracia.com" target="_blank">
 		Toda la info de la travesía en la web!
 	</a>
@@ -70,5 +70,8 @@
 	}
 	.mas-info {
 		font-size: 24px;
+		a {
+			color: var(--link);
+		}
 	}
 </style>
