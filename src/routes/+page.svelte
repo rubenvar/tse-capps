@@ -47,6 +47,45 @@
 
 <Header titleColor={letras} />
 
+<main style="--logo:{logo};">
+	<div class="inputs">
+		<Select
+			bind:justValue={gorro}
+			items={gorroColors}
+			clearable={false}
+			searchable={false}
+			value={gorro}
+			--padding="0 10px"
+			--input-padding="0"
+			--value-container-padding="0"
+			on:input={({ detail }) => {
+				updateUrl('gorro', detail.value);
+			}}
+		>
+			<div slot="selection" let:selection class="select-item">
+				<span class="select-color" style="background-color:{selection.value};" />
+				{selection.label}
+			</div>
+			<div slot="item" let:item class="select-item">
+				<span class="select-color" style="background-color:{item.value};" />
+				{item.label}
+			</div>
+		</Select>
+		<ColorInput
+			bind:color={letrasColor}
+			title="Letras"
+			onInput={() => {
+				updateUrl('letras', letras);
+			}}
+		/>
+		<ColorInput
+			bind:color={logoColor}
+			title="Logo"
+			onInput={() => {
+				updateUrl('logo', logo);
+			}}
+		/>
+	</div>
 	<button
 		on:click={() => {
 			navigator.share({ url: $page.url.toString() });
@@ -72,11 +111,29 @@
 		</svg>
 		Comparte tu diseño con el mundo
 	</button>
+	<div class="gorro">
+		<Gorro {gorro} {letras} {logo} />
+	</div>
 </main>
 
 <p class="mas-info" style="--gorro:{gorro};">
 	<a href="https://travesiasantaengracia.com" target="_blank">
-		Toda la info de la travesía en la web!
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			stroke-width="2"
+			stroke="currentColor"
+			fill="none"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+			<path d="M11 7h-5a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-5" />
+			<path d="M10 14l10 -10" />
+			<path d="M15 4l5 0l0 5" />
+		</svg> Y mira toda la info de la travesía en la web
 	</a>
 </p>
 
@@ -88,19 +145,24 @@
 		max-width: var(--maxWidth);
 		margin: 0 auto;
 		display: grid;
+		grid-template-areas: 'inputs gorro' 'button gorro';
 		grid-template-columns: 1fr 1fr;
 		gap: 30px;
+		/* justify-content: center; */
 		@media only screen and (max-width: 512px) {
+			grid-template-areas: 'gorro' 'inputs' 'button';
 			grid-template-columns: 1fr;
 			gap: 12px;
 		}
 	}
 	.inputs {
+		grid-area: inputs;
+		align-self: start;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		gap: 24px;
-		padding: 24px 0;
+		margin: 24px 0;
 		.select-item {
 			display: flex;
 			align-items: center;
@@ -114,26 +176,45 @@
 				box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 			}
 		}
-		button {
-			background-color: var(--logo);
-		}
 		@media only screen and (max-width: 512px) {
-			/* padding: 0; */
+			margin: 12px 0;
 			gap: 12px;
-			button {
-				display: none;
-			}
 		}
 	}
-	.colors {
-		display: flex;
-		flex-direction: column;
-		gap: 24px;
+	button {
+		grid-area: button;
+		background-color: var(--logo);
+		font-family: inherit;
+		font-size: inherit;
+		padding: 12px;
+		border: none;
+		border-radius: 6px;
+		margin: 24px 0;
+		@media only screen and (max-width: 512px) {
+			margin: 12px 0 24px;
+		}
+		svg {
+			vertical-align: top;
+			width: 22px;
+			height: 22px;
+			margin-right: 6px;
+		}
+	}
+	.gorro {
+		justify-self: center;
+		grid-area: gorro;
+		/* margin: 0 auto; */
 	}
 	.mas-info {
 		font-size: 24px;
+		text-align: center;
 		a {
 			color: var(--gorro);
+			svg {
+				vertical-align: top;
+				width: 28px;
+				height: 28px;
+			}
 		}
 	}
 </style>

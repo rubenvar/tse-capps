@@ -30,7 +30,7 @@
 
 <style lang="scss">
 	svg {
-		margin: 0 auto;
+		display: block;
 		@media only screen and (max-width: 768px) {
 			width: 320px;
 			height: 320px;
