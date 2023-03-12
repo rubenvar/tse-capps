@@ -64,7 +64,7 @@
 		>
 			<div slot="selection" let:selection class="select-item">
 				<span class="select-color" style="background-color:{selection.value};" />
-				{selection.label}
+				Gorro
 			</div>
 			<div slot="item" let:item class="select-item">
 				<span class="select-color" style="background-color:{item.value};" />
