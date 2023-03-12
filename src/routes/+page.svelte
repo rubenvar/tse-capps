@@ -10,7 +10,7 @@
 
 	import { browser } from '$app/environment';
 	import { createQueryStore } from '$lib/colorsStore';
-	import { onMount } from 'svelte';
+	// import { onMount } from 'svelte';
 
 	let gorroColor = new Color('#bb1515');
 	let letrasColor = new Color('#28235c');
@@ -49,7 +49,7 @@
 <Header titleColor={letras} />
 
 <main>
-	<div class="inputs">
+	<div class="inputs" style="--logo:{logo};">
 		<div class="colors">
 			<ColorInput bind:color={gorroColor} title="Gorro" />
 			<ColorInput bind:color={letrasColor} title="Letras" />
@@ -60,7 +60,7 @@
 	<Gorro {gorro} {letras} {logo} />
 </main>
 
-<p class="mas-info" style="--link:{gorro};">
+<p class="mas-info" style="--gorro:{gorro};">
 	<a href="https://travesiasantaengracia.com" target="_blank">
 		Toda la info de la travesía en la web!
 	</a>
@@ -87,6 +87,9 @@
 		justify-content: space-between;
 		gap: 24px;
 		padding: 24px 0;
+		button {
+			background-color: var(--logo);
+		}
 		@media only screen and (max-width: 512px) {
 			/* padding: 0; */
 			gap: 12px;
@@ -103,7 +106,7 @@
 	.mas-info {
 		font-size: 24px;
 		a {
-			color: var(--link);
+			color: var(--gorro);
 		}
 	}
 </style>
