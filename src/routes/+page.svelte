@@ -47,49 +47,31 @@
 
 <Header titleColor={letras} />
 
-<main>
-	<div class="inputs" style="--logo:{logo};">
-		<div class="colors">
-			<Select
-				bind:justValue={gorro}
-				items={gorroColors}
-				clearable={false}
-				searchable={false}
-				value={gorro}
-				--padding="0 10px"
-				--input-padding="0"
-				--value-container-padding="0"
-				on:input={({ detail }) => {
-					updateUrl('gorro', detail.value);
-				}}
-			>
-				<div slot="selection" let:selection class="select-item">
-					<span class="select-color" style="background-color:{selection.value};" />
-					{selection.label}
-				</div>
-				<div slot="item" let:item class="select-item">
-					<span class="select-color" style="background-color:{item.value};" />
-					{item.label}
-				</div>
-			</Select>
-			<ColorInput
-				bind:color={letrasColor}
-				title="Letras"
-				onInput={() => {
-					updateUrl('letras', letras);
-				}}
-			/>
-			<ColorInput
-				bind:color={logoColor}
-				title="Logo"
-				onInput={() => {
-					updateUrl('logo', logo);
-				}}
-			/>
-		</div>
-		<button>Comparte la cosa 🚀</button>
-	</div>
-	<Gorro {gorro} {letras} {logo} />
+	<button
+		on:click={() => {
+			navigator.share({ url: $page.url.toString() });
+		}}
+	>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="24"
+			height="24"
+			viewBox="0 0 24 24"
+			stroke-width="2"
+			stroke="currentColor"
+			fill="none"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+		>
+			<path stroke="none" d="M0 0h24v24H0z" fill="none" />
+			<path d="M6 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+			<path d="M18 6m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+			<path d="M18 18m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+			<path d="M8.7 10.7l6.6 -3.4" />
+			<path d="M8.7 13.3l6.6 3.4" />
+		</svg>
+		Comparte tu diseño con el mundo
+	</button>
 </main>
 
 <p class="mas-info" style="--gorro:{gorro};">
