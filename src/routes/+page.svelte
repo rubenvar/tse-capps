@@ -5,61 +5,44 @@
 
 	import { Color, ColorInput } from 'color-picker-svelte';
 	import Select from 'svelte-select';
+	// import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+
+	import { gorroColors } from '$lib/gorroColors';
 	import Gorro from '$lib/Gorro.svelte';
 	import Footer from '$lib/Footer.svelte';
 	import Header from '$lib/Header.svelte';
 
-	import { browser } from '$app/environment';
-	import { createQueryStore } from '$lib/colorsStore';
-	// import { onMount } from 'svelte';
+	// try to get colors in url on page init
+	const gorroInUrl = $page.url.searchParams.get('gorro');
+	const letrasInUrl = $page.url.searchParams.get('letras');
+	const logoInUrl = $page.url.searchParams.get('logo');
 
-	let letrasColor = new Color('#28235c');
-	let logoColor = new Color('#00abaf');
+	// create color picker colors
+	let letrasColor = new Color(letrasInUrl || '#28235c');
+	let logoColor = new Color(logoInUrl || '#00abaf');
 
-	let gorro = '#bb1515';
+	// create color variables
+	let gorro = gorroInUrl || '#bc4033'; // rojo
 	$: letras = letrasColor.toHexString();
 	$: logo = logoColor.toHexString();
 
-	const gorroStore = createQueryStore('gorro');
-	const letrasStore = createQueryStore('letras');
-	const logoStore = createQueryStore('logo');
+	// helper function that updates the url search params on color pick
+	function updateUrl(name: 'gorro' | 'letras' | 'logo', value: string) {
+		if (!browser) return;
 
-	// onMount(() => {
-	// 	// set values to url on mount
-	// 	// TODO maybe, if url already comes with values, this will break it because it replaces them?
-	// 	// should get them and set them to the current page state
-	// 	if (browser) {
-	// 		gorroStore.set(gorro);
-	// 		letrasStore.set(letras);
-	// 		logoStore.set(logo);
-	// 	}
-	// });
+		const urlSearchParams = new URLSearchParams($page.url.searchParams);
+		// set the color to url 👍
+		urlSearchParams.set(name, value);
 
-	$: if (browser) {
-		// on update, set the color to url 👍
-		gorroStore.set(gorro);
-		letrasStore.set(letras);
-		logoStore.set(logo);
+		goto(`?${urlSearchParams.toString()}`, {
+			keepFocus: true,
+			replaceState: true,
+			noScroll: true
+		});
 	}
-
-	const gorroColors = [
-		{ value: '#cfc100', label: 'Amarillo' },
-		{ value: '#dedede', label: 'Blanco' },
-		{ value: '#cb620f', label: 'Naranja' },
-		{ value: '#bc4033', label: 'Rojo' },
-		{ value: '#dc4491', label: 'Rosa' },
-		{ value: '#8f2b29', label: 'Burdeos' },
-		{ value: '#87c6e7', label: 'Celeste' },
-		{ value: '#0059c1', label: 'Royal' },
-		{ value: '#072e61', label: 'Marino' },
-		{ value: '#a0a3a2', label: 'Plata' },
-		{ value: '#c6ad69', label: 'Oro' },
-		{ value: '#2b2b2b', label: 'Negro' },
-		{ value: '#d2e73e', label: 'Flúor' },
-		{ value: '#7dc764', label: 'Verde Hierba' },
-		{ value: '#329c72', label: 'Verde Metal' },
-		{ value: '#3ca642', label: 'Verde Benetton' }
-	];
 </script>
 
 <Header titleColor={letras} />
@@ -72,10 +55,13 @@
 				items={gorroColors}
 				clearable={false}
 				searchable={false}
-				value="#cfc100"
+				value={gorro}
 				--padding="0 10px"
 				--input-padding="0"
 				--value-container-padding="0"
+				on:input={({ detail }) => {
+					updateUrl('gorro', detail.value);
+				}}
 			>
 				<div slot="selection" let:selection class="select-item">
 					<span class="select-color" style="background-color:{selection.value};" />
@@ -86,8 +72,20 @@
 					{item.label}
 				</div>
 			</Select>
-			<ColorInput bind:color={letrasColor} title="Letras" />
-			<ColorInput bind:color={logoColor} title="Logo" />
+			<ColorInput
+				bind:color={letrasColor}
+				title="Letras"
+				onInput={() => {
+					updateUrl('letras', letras);
+				}}
+			/>
+			<ColorInput
+				bind:color={logoColor}
+				title="Logo"
+				onInput={() => {
+					updateUrl('logo', logo);
+				}}
+			/>
 		</div>
 		<button>Comparte la cosa 🚀</button>
 	</div>

@@ -1,7 +1,10 @@
+// ! not used, just for reference or just in case
 import { goto } from '$app/navigation';
 import { page } from '$app/stores';
 
 export function createQueryStore(prop: string) {
+	console.log(prop);
+	
 	let query: { [k: string]: string };
 
 	page.subscribe((v) => {
@@ -20,6 +23,7 @@ export function createQueryStore(prop: string) {
 		set: (value: string) => {
 			// any time the queryStore gets updated, we'll also update the url using goto()
 			query[prop] = value;
+			console.log(query);
 			const urlSearchParams = new URLSearchParams(query);
 			goto(`?${urlSearchParams.toString()}`, {
 				keepFocus: true,
