@@ -3,7 +3,7 @@
 </script>
 
 <header style="--titleColor:{titleColor};">
-	<h1>Elige el gorro de la VI Travesía Santa Engracia!</h1>
+	<h1>Diseña el gorro de la VI Travesía Santa Engracia!</h1>
 </header>
 
 <style lang="scss">
