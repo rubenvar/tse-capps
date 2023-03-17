@@ -18,12 +18,12 @@
 
 	// try to get colors in url on page init
 	const gorroInUrl = $page.url.searchParams.get('r'); // goRro
-	const letrasInUrl = $page.url.searchParams.get('l'); // Letras
-	const logoInUrl = $page.url.searchParams.get('g'); // loGo
+	const letrasInUrl = $page.url.searchParams.get('l') || '#28235c'; // Letras
+	const logoInUrl = $page.url.searchParams.get('g') || '#00abaf'; // loGo
 
 	// create color picker colors
-	let letrasColor = new Color(letrasInUrl || '#28235c');
-	let logoColor = new Color(logoInUrl || '#00abaf');
+	let letrasColor = new Color(letrasInUrl);
+	let logoColor = new Color(logoInUrl);
 
 	// create color variables
 	let gorro = gorroInUrl || '#bc4033'; // rojo
@@ -76,6 +76,7 @@
 			bind:color={letrasColor}
 			title="Letras"
 			onInput={() => {
+				console.log('letras', 'calling update...');
 				updateUrl('l', letras);
 			}}
 		/>
@@ -83,6 +84,7 @@
 			bind:color={logoColor}
 			title="Logo"
 			onInput={() => {
+				console.log('logo', 'calling update...');
 				updateUrl('g', logo);
 			}}
 		/>
@@ -96,7 +98,8 @@
 						title: 'Diseña el Gorro de la VI Travesía Santa Engracia',
 						text: 'Ajusta los colores del gorro y el logo, y comparte tu creación con todo el mundo!'
 					},
-					{ skype: false }
+					// @ts-expect-error using a polyfill that accepts two args
+					{ skype: false } // skype sharer gives error because of .parentNode, remove
 				)
 				.then(() => {
 					console.log('sharing');
