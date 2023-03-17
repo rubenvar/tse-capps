@@ -16,9 +16,9 @@
 	import Header from '$lib/Header.svelte';
 
 	// try to get colors in url on page init
-	const gorroInUrl = $page.url.searchParams.get('gorro');
-	const letrasInUrl = $page.url.searchParams.get('letras');
-	const logoInUrl = $page.url.searchParams.get('logo');
+	const gorroInUrl = $page.url.searchParams.get('r'); // goRro
+	const letrasInUrl = $page.url.searchParams.get('l'); // Letras
+	const logoInUrl = $page.url.searchParams.get('g'); // loGo
 
 	// create color picker colors
 	let letrasColor = new Color(letrasInUrl || '#28235c');
@@ -30,7 +30,7 @@
 	$: logo = logoColor.toHexString();
 
 	// helper function that updates the url search params on color pick
-	function updateUrl(name: 'gorro' | 'letras' | 'logo', value: string) {
+	function updateUrl(name: 'r' | 'l' | 'g', value: string) {
 		if (!browser) return;
 
 		const urlSearchParams = new URLSearchParams($page.url.searchParams);
@@ -59,7 +59,7 @@
 			--input-padding="0"
 			--value-container-padding="0"
 			on:input={({ detail }) => {
-				updateUrl('gorro', detail.value);
+				updateUrl('r', detail.value);
 			}}
 		>
 			<div slot="selection" let:selection class="select-item">
@@ -75,14 +75,14 @@
 			bind:color={letrasColor}
 			title="Letras"
 			onInput={() => {
-				updateUrl('letras', letras);
+				updateUrl('l', letras);
 			}}
 		/>
 		<ColorInput
 			bind:color={logoColor}
 			title="Logo"
 			onInput={() => {
-				updateUrl('logo', logo);
+				updateUrl('g', logo);
 			}}
 		/>
 	</div>
