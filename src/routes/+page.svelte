@@ -98,7 +98,7 @@
 					console.log('sharing');
 				})
 				.catch((er) => {
-					console.error(er);
+					console.error('some error, not working :(', er);
 				});
 		}}
 	>
