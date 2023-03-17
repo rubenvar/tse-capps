@@ -4,9 +4,8 @@
 	import '@fontsource/oxygen';
 	import 'share-api-polyfill';
 
-	import { Color, ColorInput } from 'color-picker-svelte';
+	import ColorPicker from 'svelte-awesome-color-picker';
 	import Select from 'svelte-select';
-	// import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -15,20 +14,12 @@
 	import Gorro from '$lib/Gorro.svelte';
 	import Footer from '$lib/Footer.svelte';
 	import Header from '$lib/Header.svelte';
+	import CustomPickerInput from '$lib/CustomPickerInput.svelte';
 
-	// try to get colors in url on page init
-	const gorroInUrl = $page.url.searchParams.get('r'); // goRro
-	const letrasInUrl = $page.url.searchParams.get('l') || '#28235c'; // Letras
-	const logoInUrl = $page.url.searchParams.get('g') || '#00abaf'; // loGo
-
-	// create color picker colors
-	let letrasColor = new Color(letrasInUrl);
-	let logoColor = new Color(logoInUrl);
-
-	// create color variables
-	let gorro = gorroInUrl || '#bc4033'; // rojo
-	$: letras = letrasColor.toHexString();
-	$: logo = logoColor.toHexString();
+	// try to get colors in url on page init, or defaults
+	let gorro = $page.url.searchParams.get('r') || '#cfc100'; // goRro
+	let letras = $page.url.searchParams.get('l') || '#0c5ba8'; // Letras
+	let logo = $page.url.searchParams.get('g') || '#00abaf'; // loGo
 
 	// helper function that updates the url search params on color pick
 	function updateUrl(name: 'r' | 'l' | 'g', value: string) {
@@ -72,41 +63,36 @@
 				{item.label}
 			</div>
 		</Select>
-		<ColorInput
-			bind:color={letrasColor}
-			title="Letras"
-			onInput={() => {
-				console.log('letras', 'calling update...');
-				updateUrl('l', letras);
+		<ColorPicker
+			bind:hex={letras}
+			label="Letras"
+			isAlpha={false}
+			components={{ input: CustomPickerInput }}
+			on:input={({ detail }) => {
+				updateUrl('l', detail.hex);
 			}}
 		/>
-		<ColorInput
-			bind:color={logoColor}
-			title="Logo"
-			onInput={() => {
-				console.log('logo', 'calling update...');
-				updateUrl('g', logo);
+		<ColorPicker
+			bind:hex={logo}
+			label="Logo"
+			isAlpha={false}
+			components={{ input: CustomPickerInput }}
+			on:input={({ detail }) => {
+				updateUrl('g', detail.hex);
 			}}
 		/>
 	</div>
 	<button
 		on:click={() => {
-			navigator
-				.share(
-					{
-						url: $page.url.toString(),
-						title: 'Diseña el Gorro de la VI Travesía Santa Engracia',
-						text: 'Ajusta los colores del gorro y el logo, y comparte tu creación con todo el mundo!'
-					},
-					// @ts-expect-error using a polyfill that accepts two args
-					{ skype: false } // skype sharer gives error because of .parentNode, remove
-				)
-				.then(() => {
-					console.log('sharing');
-				})
-				.catch((er) => {
-					console.error('some error, not working :(', er);
-				});
+			navigator.share(
+				{
+					url: $page.url.toString(),
+					title: 'Diseña el Gorro de la VI Travesía Santa Engracia',
+					text: 'Ajusta los colores del gorro y el logo de la VI Travesía Santa Engracia y comparte tu creación con todo el mundo!'
+				},
+				// @ts-expect-error using a polyfill that accepts two args
+				{ skype: false } // skype sharer gives error because of .parentNode, remove
+			);
 		}}
 	>
 		<svg
@@ -166,7 +152,6 @@
 		grid-template-areas: 'inputs gorro' 'button gorro';
 		grid-template-columns: 1fr 1fr;
 		gap: 30px;
-		/* justify-content: center; */
 		@media only screen and (max-width: 512px) {
 			grid-template-areas: 'gorro' 'inputs' 'button';
 			grid-template-columns: 1fr;
@@ -189,7 +174,6 @@
 				height: 20px;
 				display: inline-block;
 				margin: 8px 11px 8px 0;
-				/* border: 1px solid #777; */
 				border-radius: 4px;
 				box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
 			}
@@ -221,7 +205,6 @@
 	.gorro {
 		justify-self: center;
 		grid-area: gorro;
-		/* margin: 0 auto; */
 	}
 	.mas-info {
 		font-size: 24px;
