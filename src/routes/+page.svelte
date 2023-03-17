@@ -91,9 +91,9 @@
 		on:click={() => {
 			navigator
 				.share({
-					url: $page.url.toString()
-					// title: 'Diseña el gorro de la VI Travesía Santa Engracia',
-					// text: 'Ajusta los colores del gorro y el logo, y comparte tu diseño con el mundo'
+					url: $page.url.toString(),
+					title: 'Diseña el Gorro de la VI Travesía Santa Engracia',
+					text: 'Ajusta los colores del gorro y el logo, y comparte tu creación con todo el mundo!'
 				})
 				.then(() => {
 					console.log('sharing');
