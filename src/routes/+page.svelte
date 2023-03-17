@@ -88,11 +88,18 @@
 	</div>
 	<button
 		on:click={() => {
-			navigator.share({
-				url: $page.url.toString()
-				// title: 'Diseña el gorro de la VI Travesía Santa Engracia',
-				// text: 'Ajusta los colores del gorro y el logo, y comparte tu diseño con el mundo'
-			});
+			navigator
+				.share({
+					url: $page.url.toString()
+					// title: 'Diseña el gorro de la VI Travesía Santa Engracia',
+					// text: 'Ajusta los colores del gorro y el logo, y comparte tu diseño con el mundo'
+				})
+				.then(() => {
+					console.log('sharing');
+				})
+				.catch((er) => {
+					console.error(er);
+				});
 		}}
 	>
 		<svg
