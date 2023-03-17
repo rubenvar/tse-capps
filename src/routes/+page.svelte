@@ -2,6 +2,7 @@
 	import '../app.scss';
 	import '@fontsource/mclaren';
 	import '@fontsource/oxygen';
+	import 'share-api-polyfill';
 
 	import { Color, ColorInput } from 'color-picker-svelte';
 	import Select from 'svelte-select';
