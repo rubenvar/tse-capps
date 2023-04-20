@@ -1,7 +1,7 @@
 export const gorroColors = [
 	{ value: '#cfc100', label: 'Amarillo' },
 	{ value: '#dedede', label: 'Blanco' },
-	{ value: '#cb620f', label: 'Naranja' },
+	{ value: '#d36b16', label: 'Naranja' },
 	{ value: '#bc4033', label: 'Rojo' },
 	{ value: '#dc4491', label: 'Rosa' },
 	{ value: '#8f2b29', label: 'Burdeos' },
